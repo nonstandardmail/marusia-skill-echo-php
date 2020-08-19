@@ -1,0 +1,25 @@
+service: marusia-skill-echo-php
+
+provider:
+  name: aws
+  region: eu-central-1
+  stage: production
+  runtime: provided
+
+plugins:
+  - ./vendor/bref/bref
+
+functions:
+  api:
+    handler: index.php
+    description: ""
+    timeout: 5
+    layers:
+      - ${bref:layer.php-73-fpm}
+    events:
+      - http: "POST /webhook"
+
+package:
+  exclude:
+    - "node_modules/**"
+    - "tests/**"
